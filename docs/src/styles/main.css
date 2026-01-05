@@ -1,0 +1,171 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Courier New', monospace;
+    background: #000000;
+    color: #ffffff;
+    overflow: hidden;
+}
+
+#app {
+    width: 100vw;
+    height: 100vh;
+    position: relative;
+}
+
+/* Navigation */
+#scene-nav {
+    position: absolute;
+    top: 0;
+    left: 0;
+    padding: 20px;
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(10px);
+    border-bottom-right-radius: 10px;
+    z-index: 100;
+}
+
+#scene-nav h1 {
+    font-size: 1.5rem;
+    margin-bottom: 15px;
+    background: linear-gradient(45deg, #00ffff, #ff00ff);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+#scene-list {
+    list-style: none;
+}
+
+#scene-list button {
+    display: block;
+    width: 150px;
+    margin: 8px 0;
+    padding: 10px;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid #00ffff;
+    color: #00ffff;
+    cursor: pointer;
+    transition: all 0.3s;
+    font-family: inherit;
+    font-size: 0.9rem;
+}
+
+#scene-list button:hover {
+    background: rgba(0, 255, 255, 0.2);
+    transform: translateX(5px);
+}
+
+#scene-list button.active {
+    background: rgba(0, 255, 255, 0.3);
+    border-color: #ff00ff;
+    color: #ff00ff;
+}
+
+/* Info Panel */
+#info-panel {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    padding: 20px;
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(10px);
+    border-radius: 10px;
+    min-width: 250px;
+    z-index: 100;
+}
+
+#scene-title {
+    font-size: 1.3rem;
+    color: #00ffff;
+    margin-bottom: 10px;
+}
+
+#scene-description {
+    font-size: 0.9rem;
+    color: #cccccc;
+    margin-bottom: 15px;
+    line-height: 1.4;
+}
+
+#level-controls {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+#level-controls label {
+    flex: 1;
+    color: #ff00ff;
+}
+
+#level-controls button {
+    padding: 5px 15px;
+    background: rgba(255, 0, 255, 0.2);
+    border: 1px solid #ff00ff;
+    color: #ff00ff;
+    cursor: pointer;
+    transition: all 0.3s;
+    font-size: 1rem;
+}
+
+#level-controls button:hover {
+    background: rgba(255, 0, 255, 0.4);
+}
+
+/* Canvas Container */
+#canvas-container {
+    width: 100%;
+    height: 100%;
+}
+
+#canvas-container canvas {
+    display: block;
+}
+
+/* Controls Info */
+#controls-info {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 15px 30px;
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(10px);
+    border-radius: 20px;
+    z-index: 100;
+}
+
+#controls-info p {
+    font-size: 0.85rem;
+    color: #aaaaaa;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    #scene-nav {
+        padding: 10px;
+    }
+
+    #scene-nav h1 {
+        font-size: 1.2rem;
+    }
+
+    #scene-list button {
+        width: 120px;
+        padding: 8px;
+        font-size: 0.8rem;
+    }
+
+    #info-panel {
+        right: 10px;
+        top: 10px;
+        padding: 15px;
+        min-width: 200px;
+    }
+}

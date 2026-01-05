@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Oblivion Tesseract - Exploration 3D de l'Univers</title>
+    <link rel="stylesheet" href="./src/styles/main.css">
+
+    <!-- Import maps pour Three.js depuis CDN -->
+    <script type="importmap">
+    {
+        "imports": {
+            "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
+            "three/examples/jsm/controls/OrbitControls.js": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/controls/OrbitControls.js"
+        }
+    }
+    </script>
+</head>
+<body>
+    <div id="app">
+        <!-- Navigation -->
+        <nav id="scene-nav">
+            <h1>Oblivion Tesseract</h1>
+            <ul id="scene-list">
+                <li><button data-scene="tesseract" class="active">Tesseract</button></li>
+                <li><button data-scene="blackhole">Trou Noir</button></li>
+                <li><button data-scene="galaxy">Galaxie</button></li>
+            </ul>
+        </nav>
+
+        <!-- Info Panel -->
+        <div id="info-panel">
+            <h2 id="scene-title">Tesseract</h2>
+            <p id="scene-description">Un hypercube 4D projeté en 3D</p>
+            <div id="level-controls">
+                <label>Niveau: <span id="current-level">1</span></label>
+                <button id="prev-level">←</button>
+                <button id="next-level">→</button>
+            </div>
+        </div>
+
+        <!-- Canvas Container -->
+        <div id="canvas-container"></div>
+
+        <!-- Controls Info -->
+        <div id="controls-info">
+            <p>🖱️ Souris : Rotation | 🎡 Molette : Zoom | ⌨️ Espace : Pause</p>
+        </div>
+    </div>
+
+    <script type="module" src="./src/main.js"></script>
+</body>
+</html>
