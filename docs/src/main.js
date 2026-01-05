@@ -1,8 +1,9 @@
 import { Engine } from './core/Engine.js';
-import { TesseractScene } from './scenes/TesseractScene.js';
+import { TesseractSceneEvolved } from './scenes/TesseractSceneEvolved.js';
+import { BlackHoleScene } from './scenes/BlackHoleScene.js';
 
 /**
- * Application principale
+ * Application principale - Système évolutif
  */
 class App {
     constructor() {
@@ -18,11 +19,11 @@ class App {
         const container = document.getElementById('canvas-container');
         this.engine = new Engine(container);
 
-        // Créer les scènes disponibles
-        this.registerScene('tesseract', new TesseractScene());
+        // Créer les scènes avec système de formation
+        this.registerScene('tesseract', new TesseractSceneEvolved());
+        this.registerScene('blackhole', new BlackHoleScene());
 
-        // Scènes à venir (placeholders)
-        // this.registerScene('blackhole', new BlackHoleScene());
+        // Scènes à venir
         // this.registerScene('galaxy', new GalaxyScene());
 
         // Charger la scène initiale
@@ -46,6 +47,11 @@ class App {
         this.currentSceneName = name;
         this.engine.setScene(scene);
         this.updateUI();
+
+        // Lancer automatiquement la formation
+        if (scene.playFormation) {
+            scene.playFormation();
+        }
     }
 
     setupUI() {
@@ -57,7 +63,7 @@ class App {
 
                 // Vérifier si la scène existe
                 if (!this.scenes.has(sceneName)) {
-                    alert(`La scène "${sceneName}" n\'est pas encore implémentée. À venir !`);
+                    alert(`La scène "${sceneName}" n'est pas encore implémentée. À venir !`);
                     return;
                 }
 
@@ -70,7 +76,7 @@ class App {
             });
         });
 
-        // Contrôles de niveau
+        // Contrôles d'état physique
         document.getElementById('prev-level').addEventListener('click', () => {
             const scene = this.scenes.get(this.currentSceneName);
             if (scene) {
@@ -84,6 +90,28 @@ class App {
             if (scene) {
                 scene.nextLevel();
                 this.updateUI();
+            }
+        });
+
+        // Contrôles de formation
+        document.getElementById('play-formation').addEventListener('click', () => {
+            const scene = this.scenes.get(this.currentSceneName);
+            if (scene && scene.playFormation) {
+                scene.playFormation();
+            }
+        });
+
+        document.getElementById('pause-formation').addEventListener('click', () => {
+            const scene = this.scenes.get(this.currentSceneName);
+            if (scene && scene.pauseFormation) {
+                scene.pauseFormation();
+            }
+        });
+
+        document.getElementById('reset-formation').addEventListener('click', () => {
+            const scene = this.scenes.get(this.currentSceneName);
+            if (scene && scene.resetFormation) {
+                scene.resetFormation();
             }
         });
 
@@ -101,8 +129,23 @@ class App {
                     scene.nextLevel();
                     this.updateUI();
                     break;
+                case 'f':
+                case 'F':
+                    if (scene.playFormation) {
+                        scene.playFormation();
+                    }
+                    break;
+                case 'r':
+                case 'R':
+                    if (scene.resetFormation) {
+                        scene.resetFormation();
+                    }
+                    break;
             }
         });
+
+        // Mise à jour périodique de l'UI pour la progression de formation
+        setInterval(() => this.updateFormationInfo(), 100);
     }
 
     updateUI() {
@@ -114,6 +157,19 @@ class App {
         document.getElementById('scene-title').textContent = info.name;
         document.getElementById('scene-description').textContent = info.description;
         document.getElementById('current-level').textContent = info.level;
+
+        this.updateFormationInfo();
+    }
+
+    updateFormationInfo() {
+        const scene = this.scenes.get(this.currentSceneName);
+        if (!scene || !scene.getFormationStageName) return;
+
+        const stageName = scene.getFormationStageName();
+        const info = scene.getInfo();
+
+        document.getElementById('formation-stage').textContent = stageName || '-';
+        document.getElementById('formation-progress').textContent = info.formationProgress || '0%';
     }
 }
 

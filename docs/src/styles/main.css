@@ -118,6 +118,56 @@ body {
     background: rgba(255, 0, 255, 0.4);
 }
 
+/* Formation Controls */
+#formation-controls {
+    margin-top: 20px;
+    padding-top: 15px;
+    border-top: 1px solid rgba(0, 255, 255, 0.3);
+}
+
+#formation-controls label {
+    display: block;
+    color: #00ffff;
+    margin-bottom: 10px;
+    font-size: 0.9rem;
+}
+
+.formation-buttons {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 10px;
+}
+
+.formation-buttons button {
+    flex: 1;
+    padding: 8px;
+    background: rgba(0, 255, 255, 0.2);
+    border: 1px solid #00ffff;
+    color: #00ffff;
+    cursor: pointer;
+    transition: all 0.3s;
+    font-size: 1rem;
+}
+
+.formation-buttons button:hover {
+    background: rgba(0, 255, 255, 0.4);
+}
+
+#formation-info {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.85rem;
+    color: #aaaaaa;
+}
+
+#formation-stage {
+    color: #ff00ff;
+}
+
+#formation-progress {
+    color: #00ffff;
+}
+
 /* Canvas Container */
 #canvas-container {
     width: 100%;

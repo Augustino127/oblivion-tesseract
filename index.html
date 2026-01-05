@@ -22,10 +22,26 @@
         <div id="info-panel">
             <h2 id="scene-title">Tesseract</h2>
             <p id="scene-description">Un hypercube 4D projeté en 3D</p>
+
+            <!-- État Physique -->
             <div id="level-controls">
-                <label>Niveau: <span id="current-level">1</span></label>
+                <label>État: <span id="current-level">1</span></label>
                 <button id="prev-level">←</button>
                 <button id="next-level">→</button>
+            </div>
+
+            <!-- Formation Timeline -->
+            <div id="formation-controls">
+                <label>Formation</label>
+                <div class="formation-buttons">
+                    <button id="play-formation">▶</button>
+                    <button id="pause-formation">⏸</button>
+                    <button id="reset-formation">⏮</button>
+                </div>
+                <div id="formation-info">
+                    <span id="formation-stage">-</span>
+                    <span id="formation-progress">0%</span>
+                </div>
             </div>
         </div>
 
