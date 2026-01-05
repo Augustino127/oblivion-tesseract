@@ -4,6 +4,7 @@ node_modules/
 # Build output
 dist/
 build/
+# Note: docs/ est committé car utilisé par GitHub Pages
 
 # Logs
 *.log
