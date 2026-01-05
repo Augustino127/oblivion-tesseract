@@ -1,0 +1,28 @@
+{
+  "name": "oblivion-tesseract",
+  "version": "1.0.0",
+  "description": "Exploration interactive de concepts 3D mathématiques et scientifiques - du tesseract aux trous noirs",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "devDependencies": {
+    "vite": "^5.0.0"
+  },
+  "dependencies": {
+    "three": "^0.160.0"
+  },
+  "keywords": [
+    "3d",
+    "webgl",
+    "three.js",
+    "tesseract",
+    "mathematics",
+    "physics",
+    "visualization"
+  ],
+  "author": "",
+  "license": "MIT"
+}
