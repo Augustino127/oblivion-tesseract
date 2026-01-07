@@ -48,6 +48,7 @@ export class SolarSystemScene extends Scene {
         this.time = 0;
         this.explosionTime = 0;
         this.supernovaActive = false;
+        this.lastStage = null; // Pour détecter les changements d'état
     }
 
     createPhysicalStates() {
@@ -440,6 +441,12 @@ export class SolarSystemScene extends Scene {
         const stage = currentState.parameters.stage;
         const params = currentState.parameters;
 
+        // Détecter changement d'état
+        if (this.lastStage !== stage) {
+            this.onStageChange(stage);
+            this.lastStage = stage;
+        }
+
         // Gestion de la visibilité selon l'état
         this.updateVisibility(stage);
 
@@ -461,6 +468,16 @@ export class SolarSystemScene extends Scene {
             case 'white_dwarf':
                 this.updateWhiteDwarf();
                 break;
+        }
+    }
+
+    onStageChange(newStage) {
+        // Actions à effectuer lors d'un changement d'état
+        if (newStage === 'supernova') {
+            this.triggerSupernova();
+        } else {
+            // Reset supernova si on quitte cet état
+            this.supernovaActive = false;
         }
     }
 
@@ -552,24 +569,31 @@ export class SolarSystemScene extends Scene {
 
     updateSupernova() {
         if (!this.supernovaActive) {
-            this.triggerSupernova();
+            return; // Ne rien faire si supernova pas active
         }
 
         this.explosionTime += 0.016;
+
+        // Limiter l'explosion à 5 secondes
+        if (this.explosionTime > 5) {
+            return;
+        }
 
         const positions = this.supernovaParticles.geometry.attributes.position.array;
         const velocities = this.supernovaParticles.geometry.userData.velocities;
 
         for (let i = 0; i < positions.length; i += 3) {
-            positions[i] += velocities[i] * 0.1;
-            positions[i + 1] += velocities[i + 1] * 0.1;
-            positions[i + 2] += velocities[i + 2] * 0.1;
+            // Ajouter friction pour ralentir progressivement
+            const friction = Math.max(0, 1 - this.explosionTime / 10);
+            positions[i] += velocities[i] * 0.1 * friction;
+            positions[i + 1] += velocities[i + 1] * 0.1 * friction;
+            positions[i + 2] += velocities[i + 2] * 0.1 * friction;
         }
 
         this.supernovaParticles.geometry.attributes.position.needsUpdate = true;
 
         // Fade out progressif
-        const opacity = Math.max(0, 1 - this.explosionTime / 3);
+        const opacity = Math.max(0, 1 - this.explosionTime / 5);
         this.supernovaParticles.material.opacity = opacity;
     }
 
@@ -584,10 +608,7 @@ export class SolarSystemScene extends Scene {
     setLevel(level) {
         super.setLevel(level);
         this.currentStateIndex = level - 1;
-
-        if (this.states[this.currentStateIndex].parameters.stage === 'supernova') {
-            this.triggerSupernova();
-        }
+        // Le déclenchement supernova est maintenant géré par onStageChange()
     }
 
     onLevelChange() {

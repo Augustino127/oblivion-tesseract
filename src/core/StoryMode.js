@@ -15,40 +15,62 @@ export class StoryMode {
         this.timer = null;
         this.startTime = 0;
 
-        // L'histoire : Ordre des scènes et narration
+        // L'histoire : Du Quantique au Cosmique
+        // Voyage à travers les échelles de l'univers
         this.story = [
             {
+                scene: 'quantum',
+                title: 'I. L\'Infiniment Petit',
+                narration: 'Au niveau quantique, les particules sont intriquées - l\'information voyage instantanément.',
+                mode: 'formation',
+                duration: 22000
+            },
+            {
                 scene: 'fibonacci',
-                title: 'Le Pattern Universel',
-                narration: 'Tout commence par un simple ratio : le nombre d\'or φ = 1.618...',
+                title: 'II. Le Code Universel',
+                narration: 'Un simple ratio émerge : φ = 1.618... Le nombre d\'or, trouvé partout dans la nature.',
                 mode: 'formation',
                 duration: 20000
             },
             {
                 scene: 'tesseract',
-                title: 'Les Dimensions Cachées',
-                narration: 'Au-delà de notre perception, des dimensions supérieures existent...',
+                title: 'III. Au-Delà de l\'Espace',
+                narration: 'Notre réalité 3D n\'est qu\'une ombre projetée de dimensions supérieures...',
                 mode: 'formation',
                 duration: 18000
             },
             {
+                scene: 'spacetime',
+                title: 'IV. La Fabric de la Réalité',
+                narration: 'L\'espace et le temps ne sont pas fixes - ils se courbent, ondulent, se déforment.',
+                mode: 'formation',
+                duration: 22000
+            },
+            {
+                scene: 'solar',
+                title: 'V. Naissance et Mort des Étoiles',
+                narration: 'Les étoiles naissent, vivent et meurent dans des explosions spectaculaires...',
+                mode: 'formation',
+                duration: 25000
+            },
+            {
                 scene: 'blackhole',
-                title: 'La Courbure de l\'Espace-Temps',
-                narration: 'La gravité n\'est pas une force, mais la géométrie de l\'univers...',
+                title: 'VI. Les Gardiens du Cosmos',
+                narration: 'Les trous noirs - singularités où l\'espace-temps s\'effondre sur lui-même.',
                 mode: 'formation',
                 duration: 20000
             },
             {
                 scene: 'galaxy',
-                title: 'L\'Échelle Cosmique',
-                narration: 'Le même pattern - la spirale d\'or - se répète à l\'échelle des galaxies...',
+                title: 'VII. L\'Échelle Cosmique',
+                narration: 'Et le pattern se répète : la spirale d\'or guide les galaxies elles-mêmes.',
                 mode: 'formation',
                 duration: 25000
             },
             {
                 scene: 'fibonacci',
-                title: 'Le Cercle se Referme',
-                narration: 'Des coquillages aux galaxies, le même langage mathématique universel.',
+                title: 'VIII. Le Cercle se Referme',
+                narration: 'Du quantique au cosmique, tout est lié par le même langage mathématique.',
                 mode: 'final',
                 duration: 15000
             }

@@ -7,6 +7,7 @@ import { GalaxyScene } from './scenes/GalaxyScene.js';
 import { SolarSystemScene } from './scenes/SolarSystemScene.js';
 import { QuantumTeleportationScene } from './scenes/QuantumTeleportationScene.js';
 import { SpacetimeScene } from './scenes/SpacetimeScene.js';
+import { AtomScene } from './scenes/AtomScene.js';
 
 /**
  * Application principale - Système évolutif
@@ -35,6 +36,7 @@ class App {
         this.registerScene('solar', new SolarSystemScene());
         this.registerScene('quantum', new QuantumTeleportationScene());
         this.registerScene('spacetime', new SpacetimeScene());
+        this.registerScene('atom', new AtomScene());
 
         // Initialiser le Story Mode
         this.storyMode = new StoryMode(this);
