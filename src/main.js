@@ -1,6 +1,9 @@
 import { Engine } from './core/Engine.js';
+import { StoryMode } from './core/StoryMode.js';
 import { TesseractSceneEvolved } from './scenes/TesseractSceneEvolved.js';
 import { BlackHoleScene } from './scenes/BlackHoleScene.js';
+import { FibonacciSpiralScene } from './scenes/FibonacciSpiralScene.js';
+import { GalaxyScene } from './scenes/GalaxyScene.js';
 
 /**
  * Application principale - Système évolutif
@@ -9,7 +12,8 @@ class App {
     constructor() {
         this.engine = null;
         this.scenes = new Map();
-        this.currentSceneName = 'tesseract';
+        this.currentSceneName = 'fibonacci';
+        this.storyMode = null;
 
         this.init();
     }
@@ -20,14 +24,16 @@ class App {
         this.engine = new Engine(container);
 
         // Créer les scènes avec système de formation
+        this.registerScene('fibonacci', new FibonacciSpiralScene());
         this.registerScene('tesseract', new TesseractSceneEvolved());
         this.registerScene('blackhole', new BlackHoleScene());
+        this.registerScene('galaxy', new GalaxyScene());
 
-        // Scènes à venir
-        // this.registerScene('galaxy', new GalaxyScene());
+        // Initialiser le Story Mode
+        this.storyMode = new StoryMode(this);
 
         // Charger la scène initiale
-        this.loadScene('tesseract');
+        this.loadScene('fibonacci');
 
         // Configurer les contrôles UI
         this.setupUI();
@@ -73,6 +79,22 @@ class App {
                 button.classList.add('active');
             });
         });
+
+        // Bouton Story Mode
+        const storyButton = document.getElementById('story-mode-btn');
+        if (storyButton) {
+            storyButton.addEventListener('click', () => {
+                if (this.storyMode.isPlaying) {
+                    this.storyMode.pause();
+                    storyButton.textContent = '▶ Story Mode';
+                    storyButton.classList.remove('playing');
+                } else {
+                    this.storyMode.play();
+                    storyButton.textContent = '⏸ Story Mode';
+                    storyButton.classList.add('playing');
+                }
+            });
+        }
 
         // Contrôles de mode
         document.getElementById('mode-final').addEventListener('click', () => {

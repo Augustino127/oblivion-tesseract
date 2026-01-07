@@ -38,6 +38,46 @@ body {
     background-clip: text;
 }
 
+/* Story Mode Button */
+.story-btn {
+    display: block;
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 20px;
+    background: linear-gradient(135deg, #FFD700, #FFA500);
+    border: 2px solid #FFD700;
+    color: #000000;
+    font-weight: bold;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.3s;
+    font-family: inherit;
+    border-radius: 5px;
+    box-shadow: 0 0 20px rgba(255, 215, 0, 0.3);
+}
+
+.story-btn:hover {
+    background: linear-gradient(135deg, #FFA500, #FFD700);
+    transform: scale(1.05);
+    box-shadow: 0 0 30px rgba(255, 215, 0, 0.6);
+}
+
+.story-btn.playing {
+    background: linear-gradient(135deg, #FF00FF, #00FFFF);
+    border-color: #FF00FF;
+    color: #FFFFFF;
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0%, 100% {
+        box-shadow: 0 0 20px rgba(255, 0, 255, 0.5);
+    }
+    50% {
+        box-shadow: 0 0 40px rgba(0, 255, 255, 0.8);
+    }
+}
+
 #scene-list {
     list-style: none;
 }
