@@ -9,6 +9,9 @@ export class Scene {
         this.currentLevel = 1;
         this.maxLevels = 3;
         this.objects = [];
+
+        // Système de modes : 'final' = modèle final, 'formation' = animation de genèse
+        this.displayMode = 'final';
     }
 
     /**
@@ -53,6 +56,23 @@ export class Scene {
     }
 
     /**
+     * Changer de mode d'affichage
+     */
+    setDisplayMode(mode) {
+        if (mode === 'final' || mode === 'formation') {
+            this.displayMode = mode;
+            this.onModeChange();
+        }
+    }
+
+    /**
+     * Callback quand le mode change - à surcharger
+     */
+    onModeChange() {
+        // À implémenter dans les sous-classes
+    }
+
+    /**
      * Callback quand le niveau change - à surcharger
      */
     onLevelChange() {
@@ -65,7 +85,13 @@ export class Scene {
     destroy() {
         this.objects.forEach(obj => {
             if (obj.geometry) obj.geometry.dispose();
-            if (obj.material) obj.material.dispose();
+            if (obj.material) {
+                if (Array.isArray(obj.material)) {
+                    obj.material.forEach(m => m.dispose());
+                } else {
+                    obj.material.dispose();
+                }
+            }
             if (this.scene) this.scene.remove(obj);
         });
         this.objects = [];
@@ -76,7 +102,8 @@ export class Scene {
             name: this.name,
             description: this.description,
             level: this.currentLevel,
-            maxLevels: this.maxLevels
+            maxLevels: this.maxLevels,
+            displayMode: this.displayMode
         };
     }
 }

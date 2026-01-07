@@ -23,6 +23,15 @@
             <h2 id="scene-title">Tesseract</h2>
             <p id="scene-description">Un hypercube 4D projeté en 3D</p>
 
+            <!-- Mode d'affichage -->
+            <div id="mode-controls">
+                <label>Mode</label>
+                <div class="mode-buttons">
+                    <button id="mode-final" class="active">Modèle Final</button>
+                    <button id="mode-formation">Formation</button>
+                </div>
+            </div>
+
             <!-- État Physique -->
             <div id="level-controls">
                 <label>État: <span id="current-level">1</span></label>
@@ -30,8 +39,8 @@
                 <button id="next-level">→</button>
             </div>
 
-            <!-- Formation Timeline -->
-            <div id="formation-controls">
+            <!-- Formation Timeline (visible seulement en mode Formation) -->
+            <div id="formation-controls" style="display: none;">
                 <label>Formation</label>
                 <div class="formation-buttons">
                     <button id="play-formation">▶</button>

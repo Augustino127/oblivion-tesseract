@@ -48,10 +48,8 @@ class App {
         this.engine.setScene(scene);
         this.updateUI();
 
-        // Lancer automatiquement la formation
-        if (scene.playFormation) {
-            scene.playFormation();
-        }
+        // Ne PAS lancer automatiquement la formation
+        // L'utilisateur choisit le mode via l'UI
     }
 
     setupUI() {
@@ -74,6 +72,23 @@ class App {
                 sceneButtons.forEach(btn => btn.classList.remove('active'));
                 button.classList.add('active');
             });
+        });
+
+        // Contrôles de mode
+        document.getElementById('mode-final').addEventListener('click', () => {
+            const scene = this.scenes.get(this.currentSceneName);
+            if (scene && scene.setDisplayMode) {
+                scene.setDisplayMode('final');
+                this.updateModeUI('final');
+            }
+        });
+
+        document.getElementById('mode-formation').addEventListener('click', () => {
+            const scene = this.scenes.get(this.currentSceneName);
+            if (scene && scene.setDisplayMode) {
+                scene.setDisplayMode('formation');
+                this.updateModeUI('formation');
+            }
         });
 
         // Contrôles d'état physique
@@ -170,6 +185,20 @@ class App {
 
         document.getElementById('formation-stage').textContent = stageName || '-';
         document.getElementById('formation-progress').textContent = info.formationProgress || '0%';
+    }
+
+    updateModeUI(mode) {
+        // Mettre à jour les boutons actifs
+        const buttons = document.querySelectorAll('.mode-buttons button');
+        buttons.forEach(btn => btn.classList.remove('active'));
+
+        if (mode === 'final') {
+            document.getElementById('mode-final').classList.add('active');
+            document.getElementById('formation-controls').style.display = 'none';
+        } else {
+            document.getElementById('mode-formation').classList.add('active');
+            document.getElementById('formation-controls').style.display = 'block';
+        }
     }
 }
 

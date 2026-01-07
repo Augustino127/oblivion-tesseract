@@ -165,6 +165,10 @@ export class TesseractSceneEvolved extends Scene {
     init() {
         this.createTesseract();
         this.maxLevels = this.states.length;
+
+        // Démarrer en mode final par défaut
+        this.displayMode = 'final';
+        this.formationProgress = 1.0;
     }
 
     createTesseract() {
@@ -227,9 +231,15 @@ export class TesseractSceneEvolved extends Scene {
             let v4D = [...vertex];
 
             // Effet de dépliage : séparer les cubes en fonction de leur coordonnée W
-            if (foldProgress < 1.0) {
+            // Seulement en mode formation
+            if (this.displayMode === 'formation' && foldProgress < 1.0) {
                 const cubeIndex = (idx & 8) >> 3; // 0 ou 1 selon le cube
-                const unfoldOffset = (1 - foldProgress) * 4 * (cubeIndex * 2 - 1);
+
+                // Fonction d'easing pour un mouvement plus naturel
+                const eased = 1 - Math.pow(foldProgress, 2);
+
+                // Réduction du facteur de 4 à 1.5 pour moins d'étirement
+                const unfoldOffset = eased * 1.5 * (cubeIndex * 2 - 1);
                 v4D[3] += unfoldOffset;
             }
 
@@ -275,6 +285,20 @@ export class TesseractSceneEvolved extends Scene {
             console.log(`État physique : ${state.name}`);
             // Mettre à jour la description
             this.description = state.description;
+        }
+    }
+
+    onModeChange() {
+        console.log(`Mode d'affichage : ${this.displayMode}`);
+
+        if (this.displayMode === 'formation') {
+            // Lancer l'animation de formation
+            this.formationTimeline.reset();
+            this.formationTimeline.play();
+        } else {
+            // Mode final : arrêter l'animation, montrer forme complète
+            this.formationTimeline.pause();
+            this.formationProgress = 1.0;
         }
     }
 

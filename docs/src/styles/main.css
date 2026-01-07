@@ -118,6 +118,47 @@ body {
     background: rgba(255, 0, 255, 0.4);
 }
 
+/* Mode Controls */
+#mode-controls {
+    margin-bottom: 15px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid rgba(0, 255, 255, 0.3);
+}
+
+#mode-controls label {
+    display: block;
+    color: #00ffff;
+    margin-bottom: 10px;
+    font-size: 0.9rem;
+}
+
+.mode-buttons {
+    display: flex;
+    gap: 8px;
+}
+
+.mode-buttons button {
+    flex: 1;
+    padding: 8px;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid #00ffff;
+    color: #00ffff;
+    cursor: pointer;
+    transition: all 0.3s;
+    font-size: 0.85rem;
+    font-family: inherit;
+}
+
+.mode-buttons button:hover {
+    background: rgba(0, 255, 255, 0.2);
+}
+
+.mode-buttons button.active {
+    background: rgba(0, 255, 255, 0.4);
+    color: #ffffff;
+    border-color: #ff00ff;
+}
+
 /* Formation Controls */
 #formation-controls {
     margin-top: 20px;

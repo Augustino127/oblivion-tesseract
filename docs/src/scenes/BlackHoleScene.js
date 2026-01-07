@@ -160,6 +160,10 @@ export class BlackHoleScene extends Scene {
         this.createEventHorizon();
         this.createAccretionDisk();
         this.maxLevels = this.states.length;
+
+        // Démarrer en mode final par défaut
+        this.displayMode = 'final';
+        this.collapseProgress = 1.0;
     }
 
     createSpacetimeGrid() {
@@ -370,6 +374,20 @@ export class BlackHoleScene extends Scene {
         if (state) {
             console.log(`État physique : ${state.name}`);
             this.description = state.description;
+        }
+    }
+
+    onModeChange() {
+        console.log(`Mode d'affichage : ${this.displayMode}`);
+
+        if (this.displayMode === 'formation') {
+            // Lancer l'animation de formation
+            this.formationTimeline.reset();
+            this.formationTimeline.play();
+        } else {
+            // Mode final : arrêter l'animation, montrer état final
+            this.formationTimeline.pause();
+            this.collapseProgress = 1.0;
         }
     }
 

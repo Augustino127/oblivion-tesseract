@@ -4,17 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Oblivion Tesseract - Exploration 3D de l'Univers</title>
-    <link rel="stylesheet" href="src/styles/main.css">
-
-    <!-- Import maps pour Three.js depuis CDN -->
-    <script type="importmap">
-    {
-        "imports": {
-            "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
-            "three/examples/jsm/controls/OrbitControls.js": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/controls/OrbitControls.js"
-        }
-    }
-    </script>
+    <link rel="stylesheet" href="/src/styles/main.css">
 </head>
 <body>
     <div id="app">
@@ -33,6 +23,15 @@
             <h2 id="scene-title">Tesseract</h2>
             <p id="scene-description">Un hypercube 4D projeté en 3D</p>
 
+            <!-- Mode d'affichage -->
+            <div id="mode-controls">
+                <label>Mode</label>
+                <div class="mode-buttons">
+                    <button id="mode-final" class="active">Modèle Final</button>
+                    <button id="mode-formation">Formation</button>
+                </div>
+            </div>
+
             <!-- État Physique -->
             <div id="level-controls">
                 <label>État: <span id="current-level">1</span></label>
@@ -40,8 +39,8 @@
                 <button id="next-level">→</button>
             </div>
 
-            <!-- Formation Timeline -->
-            <div id="formation-controls">
+            <!-- Formation Timeline (visible seulement en mode Formation) -->
+            <div id="formation-controls" style="display: none;">
                 <label>Formation</label>
                 <div class="formation-buttons">
                     <button id="play-formation">▶</button>
@@ -60,10 +59,10 @@
 
         <!-- Controls Info -->
         <div id="controls-info">
-            <p>🖱️ Souris : Rotation | 🎡 Molette : Zoom | ⌨️ Espace : Pause | F : Formation | R : Reset</p>
+            <p>🖱️ Souris : Rotation | 🎡 Molette : Zoom | ⌨️ Espace : Pause</p>
         </div>
     </div>
 
-    <script type="module" src="src/main.js?v=2.0"></script>
+    <script type="module" src="/src/main.js"></script>
 </body>
 </html>
