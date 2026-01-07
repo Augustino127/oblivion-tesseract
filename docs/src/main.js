@@ -8,6 +8,8 @@ import { SolarSystemScene } from './scenes/SolarSystemScene.js';
 import { QuantumTeleportationScene } from './scenes/QuantumTeleportationScene.js';
 import { SpacetimeScene } from './scenes/SpacetimeScene.js';
 import { AtomScene } from './scenes/AtomScene.js';
+import { FractalScene } from './scenes/FractalScene.js';
+import { WaveScene } from './scenes/WaveScene.js';
 
 /**
  * Application principale - Système évolutif
@@ -37,6 +39,8 @@ class App {
         this.registerScene('quantum', new QuantumTeleportationScene());
         this.registerScene('spacetime', new SpacetimeScene());
         this.registerScene('atom', new AtomScene());
+        this.registerScene('fractal', new FractalScene());
+        this.registerScene('wave', new WaveScene());
 
         // Initialiser le Story Mode
         this.storyMode = new StoryMode(this);
