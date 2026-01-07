@@ -4,7 +4,17 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Oblivion Tesseract - Exploration 3D de l'Univers</title>
-    <link rel="stylesheet" href="/src/styles/main.css">
+    <link rel="stylesheet" href="src/styles/main.css">
+
+    <!-- Import maps pour Three.js depuis CDN -->
+    <script type="importmap">
+    {
+        "imports": {
+            "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
+            "three/examples/jsm/controls/OrbitControls.js": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/controls/OrbitControls.js"
+        }
+    }
+    </script>
 </head>
 <body>
     <div id="app">
@@ -64,10 +74,10 @@
 
         <!-- Controls Info -->
         <div id="controls-info">
-            <p>🖱️ Souris : Rotation | 🎡 Molette : Zoom | ⌨️ Espace : Pause</p>
+            <p>🖱️ Souris : Rotation | 🎡 Molette : Zoom | ⌨️ Espace : Pause | F : Formation | R : Reset</p>
         </div>
     </div>
 
-    <script type="module" src="/src/main.js"></script>
+    <script type="module" src="src/main.js?v=4.0"></script>
 </body>
 </html>
