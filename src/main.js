@@ -4,6 +4,9 @@ import { TesseractSceneEvolved } from './scenes/TesseractSceneEvolved.js';
 import { BlackHoleScene } from './scenes/BlackHoleScene.js';
 import { FibonacciSpiralScene } from './scenes/FibonacciSpiralScene.js';
 import { GalaxyScene } from './scenes/GalaxyScene.js';
+import { SolarSystemScene } from './scenes/SolarSystemScene.js';
+import { QuantumTeleportationScene } from './scenes/QuantumTeleportationScene.js';
+import { SpacetimeScene } from './scenes/SpacetimeScene.js';
 
 /**
  * Application principale - Système évolutif
@@ -29,6 +32,9 @@ class App {
         this.registerScene('tesseract', new TesseractSceneEvolved());
         this.registerScene('blackhole', new BlackHoleScene());
         this.registerScene('galaxy', new GalaxyScene());
+        this.registerScene('solar', new SolarSystemScene());
+        this.registerScene('quantum', new QuantumTeleportationScene());
+        this.registerScene('spacetime', new SpacetimeScene());
 
         // Initialiser le Story Mode
         this.storyMode = new StoryMode(this);
