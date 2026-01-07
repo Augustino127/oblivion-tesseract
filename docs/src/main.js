@@ -10,6 +10,8 @@ import { SpacetimeScene } from './scenes/SpacetimeScene.js';
 import { AtomScene } from './scenes/AtomScene.js';
 import { FractalScene } from './scenes/FractalScene.js';
 import { WaveScene } from './scenes/WaveScene.js';
+import { CircleScene } from './scenes/CircleScene.js';
+import { TrigScene } from './scenes/TrigScene.js';
 
 /**
  * Application principale - Système évolutif
@@ -41,6 +43,8 @@ class App {
         this.registerScene('atom', new AtomScene());
         this.registerScene('fractal', new FractalScene());
         this.registerScene('wave', new WaveScene());
+        this.registerScene('circle', new CircleScene());
+        this.registerScene('trig', new TrigScene());
 
         // Initialiser le Story Mode
         this.storyMode = new StoryMode(this);
