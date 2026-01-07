@@ -14,6 +14,7 @@ class App {
         this.scenes = new Map();
         this.currentSceneName = 'fibonacci';
         this.storyMode = null;
+        this.uiHidden = false;
 
         this.init();
     }
@@ -152,6 +153,14 @@ class App {
             }
         });
 
+        // Hide UI Button
+        const hideUIButton = document.getElementById('hide-ui-btn');
+        if (hideUIButton) {
+            hideUIButton.addEventListener('click', () => {
+                this.toggleUI();
+            });
+        }
+
         // Raccourcis clavier
         window.addEventListener('keydown', (e) => {
             const scene = this.scenes.get(this.currentSceneName);
@@ -177,6 +186,10 @@ class App {
                     if (scene.resetFormation) {
                         scene.resetFormation();
                     }
+                    break;
+                case 'h':
+                case 'H':
+                    this.toggleUI();
                     break;
             }
         });
@@ -220,6 +233,31 @@ class App {
         } else {
             document.getElementById('mode-formation').classList.add('active');
             document.getElementById('formation-controls').style.display = 'block';
+        }
+    }
+
+    toggleUI() {
+        this.uiHidden = !this.uiHidden;
+
+        const nav = document.getElementById('scene-nav');
+        const infoPanel = document.getElementById('info-panel');
+        const controlsInfo = document.getElementById('controls-info');
+        const hideBtn = document.getElementById('hide-ui-btn');
+
+        if (this.uiHidden) {
+            // Masquer les panneaux
+            nav.classList.add('ui-hidden');
+            infoPanel.classList.add('ui-hidden');
+            controlsInfo.classList.add('ui-hidden');
+            hideBtn.textContent = '👁️‍🗨️';
+            hideBtn.title = 'Afficher l\'interface (H)';
+        } else {
+            // Afficher les panneaux
+            nav.classList.remove('ui-hidden');
+            infoPanel.classList.remove('ui-hidden');
+            controlsInfo.classList.remove('ui-hidden');
+            hideBtn.textContent = '👁️';
+            hideBtn.title = 'Masquer l\'interface (H)';
         }
     }
 }

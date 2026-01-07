@@ -34,9 +34,58 @@ export class FibonacciSpiralScene extends Scene {
         this.rectangles = [];
         this.spiral3D = null;
         this.particles = null;
+        this.labels = [];
+        this.exampleLabels = [];
 
         this.time = 0;
         this.formationProgress = 0;
+    }
+
+    /**
+     * Crée un sprite de texte pour les labels
+     */
+    createTextSprite(text, parameters = {}) {
+        const canvas = document.createElement('canvas');
+        const context = canvas.getContext('2d');
+
+        const fontSize = parameters.fontSize || 64;
+        const fontFace = parameters.fontFace || 'Courier New';
+        const textColor = parameters.textColor || '#FFFFFF';
+        const backgroundColor = parameters.backgroundColor || 'rgba(0, 0, 0, 0.6)';
+        const padding = parameters.padding || 10;
+
+        // Mesurer le texte pour définir la taille du canvas
+        context.font = `${fontSize}px ${fontFace}`;
+        const metrics = context.measureText(text);
+        const textWidth = metrics.width;
+
+        canvas.width = textWidth + padding * 2;
+        canvas.height = fontSize + padding * 2;
+
+        // Redessiner avec la bonne taille
+        context.font = `${fontSize}px ${fontFace}`;
+        context.fillStyle = backgroundColor;
+        context.fillRect(0, 0, canvas.width, canvas.height);
+
+        context.fillStyle = textColor;
+        context.textAlign = 'center';
+        context.textBaseline = 'middle';
+        context.fillText(text, canvas.width / 2, canvas.height / 2);
+
+        // Créer le sprite
+        const texture = new THREE.CanvasTexture(canvas);
+        const spriteMaterial = new THREE.SpriteMaterial({
+            map: texture,
+            transparent: true,
+            opacity: 0.9
+        });
+        const sprite = new THREE.Sprite(spriteMaterial);
+
+        // Ajuster l'échelle du sprite
+        const scale = 0.5;
+        sprite.scale.set(scale * canvas.width / 100, scale * canvas.height / 100, 1);
+
+        return sprite;
     }
 
     createPhysicalStates() {
@@ -108,10 +157,71 @@ export class FibonacciSpiralScene extends Scene {
         this.createFibonacciSquares();
         this.createSpiral2D();
         this.createSpiral3D();
+        this.createEducationalLabels();
         this.maxLevels = this.states.length;
 
         this.displayMode = 'final';
         this.formationProgress = 1.0;
+    }
+
+    createEducationalLabels() {
+        // Label du nombre d'or (visible avec le rectangle)
+        const phiLabel = this.createTextSprite('φ = 1.618...', {
+            fontSize: 56,
+            textColor: '#FFD700',
+            backgroundColor: 'rgba(0, 0, 0, 0.8)'
+        });
+        phiLabel.position.set(0, -2, 0);
+        phiLabel.userData.type = 'rectangle';
+        phiLabel.visible = false;
+        this.scene.add(phiLabel);
+        this.objects.push(phiLabel);
+
+        // Formule de la suite de Fibonacci (visible avec les carrés)
+        const fibFormulaLabel = this.createTextSprite('F(n) = F(n-1) + F(n-2)', {
+            fontSize: 48,
+            textColor: '#00FFFF',
+            backgroundColor: 'rgba(0, 0, 0, 0.8)'
+        });
+        fibFormulaLabel.position.set(0, -3, 0);
+        fibFormulaLabel.userData.type = 'square';
+        fibFormulaLabel.visible = false;
+        this.scene.add(fibFormulaLabel);
+        this.objects.push(fibFormulaLabel);
+
+        // Exemples dans la nature (visible avec la spirale 3D)
+        const examples = [
+            { text: 'Coquilles 🐚', pos: [-4, 3, 0] },
+            { text: 'Galaxies 🌌', pos: [-4, 2.3, 0] },
+            { text: 'Tournesols 🌻', pos: [-4, 1.6, 0] },
+            { text: 'Ouragans 🌀', pos: [-4, 0.9, 0] }
+        ];
+
+        examples.forEach(ex => {
+            const label = this.createTextSprite(ex.text, {
+                fontSize: 40,
+                textColor: '#FFFFFF',
+                backgroundColor: 'rgba(0, 0, 0, 0.7)'
+            });
+            label.position.set(ex.pos[0], ex.pos[1], ex.pos[2]);
+            label.userData.type = 'spiral3D';
+            label.visible = false;
+            this.scene.add(label);
+            this.objects.push(label);
+            this.exampleLabels.push(label);
+        });
+
+        // Équation de la spirale logarithmique (visible avec spirale 2D)
+        const spiralFormulaLabel = this.createTextSprite('r = a·e^(bθ)', {
+            fontSize: 48,
+            textColor: '#00FFFF',
+            backgroundColor: 'rgba(0, 0, 0, 0.8)'
+        });
+        spiralFormulaLabel.position.set(0, -3.5, 0);
+        spiralFormulaLabel.userData.type = 'spiral2D';
+        spiralFormulaLabel.visible = false;
+        this.scene.add(spiralFormulaLabel);
+        this.objects.push(spiralFormulaLabel);
     }
 
     createGoldenRectangles() {
@@ -129,6 +239,18 @@ export class FibonacciSpiralScene extends Scene {
         this.scene.add(rect);
         this.objects.push(rect);
         this.rectangles.push(rect);
+
+        // Ajouter un titre pour le rectangle d'or
+        const titleLabel = this.createTextSprite('Rectangle d\'Or', {
+            fontSize: 52,
+            textColor: '#FFD700',
+            backgroundColor: 'rgba(0, 0, 0, 0.8)'
+        });
+        titleLabel.position.set(0, 2.2, 0);
+        titleLabel.userData.type = 'rectangle';
+        titleLabel.visible = false;
+        this.scene.add(titleLabel);
+        this.objects.push(titleLabel);
     }
 
     createFibonacciSquares() {
@@ -138,6 +260,7 @@ export class FibonacciSpiralScene extends Scene {
 
         for (let i = 0; i < 8; i++) {
             const size = this.fibSequence[i] * 0.2;
+            const fibNumber = this.fibSequence[i];
 
             const geometry = new THREE.PlaneGeometry(size, size);
             const material = new THREE.MeshBasicMaterial({
@@ -154,6 +277,20 @@ export class FibonacciSpiralScene extends Scene {
 
             this.scene.add(square);
             this.objects.push(square);
+
+            // Ajouter un label avec le numéro de Fibonacci
+            const label = this.createTextSprite(fibNumber.toString(), {
+                fontSize: 48,
+                textColor: '#FFD700',
+                backgroundColor: 'rgba(0, 0, 0, 0.7)'
+            });
+            label.position.set(x + size/2, y + size/2, 0.1);
+            label.userData.type = 'square';
+            label.visible = false;
+
+            this.scene.add(label);
+            this.objects.push(label);
+            this.labels.push(label);
 
             // Calculer position suivante
             switch(direction) {
