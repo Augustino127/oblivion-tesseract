@@ -1,5 +1,6 @@
 import * as THREE from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
+import { CinematicCamera } from './CinematicCamera.js';
 
 /**
  * Moteur de rendu 3D principal
@@ -12,8 +13,13 @@ export class Engine {
         this.camera = null;
         this.renderer = null;
         this.controls = null;
+        this.cinematicCamera = null;
         this.currentScene = null;
         this.isPaused = false;
+
+        // Tracking du temps pour deltaTime
+        this.clock = new THREE.Clock();
+        this.lastTime = 0;
 
         this.init();
         this.setupEventListeners();
@@ -50,6 +56,9 @@ export class Engine {
         this.controls.dampingFactor = 0.05;
         this.controls.minDistance = 2;
         this.controls.maxDistance = 20;
+
+        // Cinematic Camera System
+        this.cinematicCamera = new CinematicCamera(this.camera, this.controls);
 
         // Lumières
         const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
@@ -91,24 +100,47 @@ export class Engine {
             );
         }
 
+        // Désactiver le mode cinématique si actif
+        if (this.cinematicCamera.isActive) {
+            this.cinematicCamera.deactivate();
+        }
+
         // Charger la nouvelle scène
         this.currentScene = sceneObject;
         if (this.currentScene.setup) {
             this.currentScene.setup(this.scene);
+        }
+
+        // Charger le camera path de la scène (si défini)
+        if (this.currentScene.getCinematicPath) {
+            const cameraPath = this.currentScene.getCinematicPath();
+            if (cameraPath && cameraPath.length > 0) {
+                this.cinematicCamera.setKeyframes(cameraPath);
+            }
         }
     }
 
     animate() {
         requestAnimationFrame(() => this.animate());
 
+        // Calculer deltaTime
+        const currentTime = this.clock.getElapsedTime();
+        const deltaTime = currentTime - this.lastTime;
+        this.lastTime = currentTime;
+
         if (!this.isPaused) {
+            // Mettre à jour la caméra cinématique
+            this.cinematicCamera.update(deltaTime);
+
             // Mettre à jour la scène courante
             if (this.currentScene && this.currentScene.update) {
                 this.currentScene.update();
             }
 
-            // Mettre à jour les contrôles
-            this.controls.update();
+            // Mettre à jour les contrôles (si pas en mode cinématique)
+            if (!this.cinematicCamera.isActive) {
+                this.controls.update();
+            }
         }
 
         // Rendu
@@ -121,5 +153,31 @@ export class Engine {
 
     getCamera() {
         return this.camera;
+    }
+
+    getCinematicCamera() {
+        return this.cinematicCamera;
+    }
+
+    /**
+     * Activer/désactiver le mode cinématique
+     */
+    toggleCinematicMode() {
+        this.cinematicCamera.toggle();
+    }
+
+    /**
+     * Définir un chemin de caméra pour la scène actuelle
+     * @param {Array} keyframes - Tableau de keyframes
+     */
+    setCameraPath(keyframes) {
+        this.cinematicCamera.setKeyframes(keyframes);
+    }
+
+    /**
+     * Obtenir les infos de la caméra cinématique
+     */
+    getCinematicInfo() {
+        return this.cinematicCamera.getInfo();
     }
 }

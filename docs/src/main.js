@@ -169,6 +169,12 @@ class App {
             }
         });
 
+        // Cinematic Camera Toggle
+        document.getElementById('toggle-cinematic').addEventListener('click', () => {
+            this.engine.toggleCinematicMode();
+            this.updateCinematicUI();
+        });
+
         // Hide UI Button
         const hideUIButton = document.getElementById('hide-ui-btn');
         if (hideUIButton) {
@@ -207,11 +213,19 @@ class App {
                 case 'H':
                     this.toggleUI();
                     break;
+                case 'c':
+                case 'C':
+                    this.engine.toggleCinematicMode();
+                    this.updateCinematicUI();
+                    break;
             }
         });
 
-        // Mise à jour périodique de l'UI pour la progression de formation
-        setInterval(() => this.updateFormationInfo(), 100);
+        // Mise à jour périodique de l'UI pour la progression de formation et cinématique
+        setInterval(() => {
+            this.updateFormationInfo();
+            this.updateCinematicInfo();
+        }, 100);
     }
 
     updateUI() {
@@ -249,6 +263,29 @@ class App {
         } else {
             document.getElementById('mode-formation').classList.add('active');
             document.getElementById('formation-controls').style.display = 'block';
+        }
+    }
+
+    updateCinematicUI() {
+        const info = this.engine.getCinematicInfo();
+        const button = document.getElementById('toggle-cinematic');
+        const infoDiv = document.getElementById('cinematic-info');
+
+        if (info.isActive) {
+            button.textContent = '⏸ Désactiver';
+            button.classList.add('active');
+            infoDiv.style.display = 'block';
+        } else {
+            button.textContent = 'Activer';
+            button.classList.remove('active');
+            infoDiv.style.display = 'none';
+        }
+    }
+
+    updateCinematicInfo() {
+        const info = this.engine.getCinematicInfo();
+        if (info.isActive) {
+            document.getElementById('cinematic-progress').textContent = info.progress;
         }
     }
 

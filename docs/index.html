@@ -5,16 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Oblivion Tesseract - Exploration 3D de l'Univers</title>
     <link rel="stylesheet" href="src/styles/main.css">
-
-    <!-- Import maps pour Three.js depuis CDN -->
-    <script type="importmap">
-    {
-        "imports": {
-            "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
-            "three/examples/jsm/controls/OrbitControls.js": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/controls/OrbitControls.js"
-        }
-    }
-    </script>
 </head>
 <body>
     <div id="app">
@@ -75,6 +65,15 @@
                     <span id="formation-progress">0%</span>
                 </div>
             </div>
+
+            <!-- Cinematic Camera Controls -->
+            <div id="cinematic-controls">
+                <label>Vue Cinématique 🎬</label>
+                <button id="toggle-cinematic" class="cinematic-btn">Activer</button>
+                <div id="cinematic-info" style="display: none;">
+                    <span id="cinematic-progress">0%</span>
+                </div>
+            </div>
         </div>
 
         <!-- Canvas Container -->
@@ -82,13 +81,13 @@
 
         <!-- Controls Info -->
         <div id="controls-info">
-            <p>🖱️ Souris : Rotation | 🎡 Molette : Zoom | ⌨️ H : Masquer UI</p>
+            <p>🖱️ Souris : Rotation | 🎡 Molette : Zoom | ⌨️ H : Masquer UI | C : Vue Cinématique</p>
         </div>
 
         <!-- Hide UI Button -->
         <button id="hide-ui-btn" title="Masquer l'interface (H)">👁️</button>
     </div>
 
-    <script type="module" src="src/main.js?v=9.0"></script>
+    <script type="module" src="src/main.js?v=10.0"></script>
 </body>
 </html>

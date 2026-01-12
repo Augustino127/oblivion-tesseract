@@ -523,4 +523,88 @@ export class TrigScene extends Scene {
             formationProgress: (this.formationTimeline.getProgress() * 100).toFixed(0) + '%'
         };
     }
+
+    /**
+     * Définir un chemin de caméra cinématique pour les fonctions trigonométriques
+     */
+    getCinematicPath() {
+        const center = { x: 0, y: 0, z: 0 };
+        const duration = 24; // 24 secondes
+
+        const keyframes = [];
+
+        // Vue initiale centrée sur le cercle unitaire
+        keyframes.push({
+            time: 0,
+            position: { x: 0, y: 0, z: 10 },
+            target: center,
+            fov: 75,
+            easing: 'smoothstep'
+        });
+
+        // Zoom progressif pour voir les détails
+        keyframes.push({
+            time: duration * 0.1,
+            position: { x: 1, y: 2, z: 7 },
+            target: center,
+            fov: 65,
+            easing: 'easeInOutCubic'
+        });
+
+        // Vue du côté droit pour voir cosinus (axe X)
+        keyframes.push({
+            time: duration * 0.25,
+            position: { x: 8, y: 3, z: 2 },
+            target: { x: 0, y: 0, z: 0 },
+            fov: 70,
+            easing: 'smoothstep'
+        });
+
+        // Vue du haut pour voir sinus (axe Y)
+        keyframes.push({
+            time: duration * 0.4,
+            position: { x: 2, y: 9, z: 2 },
+            target: center,
+            fov: 75,
+            easing: 'smoothstep'
+        });
+
+        // Vue oblique pour voir le point rotatif
+        keyframes.push({
+            time: duration * 0.55,
+            position: { x: 6, y: 5, z: 6 },
+            target: center,
+            fov: 70,
+            easing: 'smoothstep'
+        });
+
+        // Vue large pour voir les courbes complètes
+        keyframes.push({
+            time: duration * 0.7,
+            position: { x: -4, y: 4, z: 10 },
+            target: { x: 0, y: 0, z: -5 },
+            fov: 80,
+            easing: 'easeInOutCubic'
+        });
+
+        // Vue finale panoramique
+        keyframes.push({
+            time: duration * 0.9,
+            position: { x: -8, y: 6, z: 4 },
+            target: center,
+            fov: 75,
+            easing: 'smoothstep'
+        });
+
+        // Retour à la position initiale
+        keyframes.push({
+            time: duration,
+            position: { x: 0, y: 0, z: 10 },
+            target: center,
+            fov: 75,
+            easing: 'easeOutCubic'
+        });
+
+        return keyframes;
+    }
 }

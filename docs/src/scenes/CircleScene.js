@@ -450,4 +450,80 @@ export class CircleScene extends Scene {
             formationProgress: (this.formationTimeline.getProgress() * 100).toFixed(0) + '%'
         };
     }
+
+    /**
+     * Définir un chemin de caméra cinématique pour démontrer π
+     */
+    getCinematicPath() {
+        const center = { x: 0, y: 0, z: 0 };
+        const radius = 8;
+        const duration = 20; // 20 secondes pour un tour complet
+
+        const keyframes = [];
+
+        // Vue de face initiale
+        keyframes.push({
+            time: 0,
+            position: { x: 0, y: 0, z: radius },
+            target: center,
+            fov: 75,
+            easing: 'smoothstep'
+        });
+
+        // Zoom sur le centre (où le rayon commence)
+        keyframes.push({
+            time: duration * 0.15,
+            position: { x: 0, y: 1, z: 5 },
+            target: center,
+            fov: 60,
+            easing: 'easeInOutCubic'
+        });
+
+        // Orbite autour pour voir le cercle complet (quart de tour)
+        keyframes.push({
+            time: duration * 0.35,
+            position: { x: radius * 0.7, y: 3, z: radius * 0.7 },
+            target: center,
+            fov: 65,
+            easing: 'smoothstep'
+        });
+
+        // Vue latérale pour voir le diamètre
+        keyframes.push({
+            time: duration * 0.5,
+            position: { x: radius, y: 2, z: 0 },
+            target: center,
+            fov: 70,
+            easing: 'smoothstep'
+        });
+
+        // Vue d'en haut pour voir la circonférence déroulée
+        keyframes.push({
+            time: duration * 0.7,
+            position: { x: 0, y: radius * 0.8, z: 3 },
+            target: { x: 0, y: -2, z: 0 },
+            fov: 75,
+            easing: 'easeInOutCubic'
+        });
+
+        // Vue finale dramatique (angle large)
+        keyframes.push({
+            time: duration * 0.9,
+            position: { x: -radius * 0.6, y: 4, z: radius * 0.8 },
+            target: center,
+            fov: 80,
+            easing: 'smoothstep'
+        });
+
+        // Retour à la vue initiale
+        keyframes.push({
+            time: duration,
+            position: { x: 0, y: 0, z: radius },
+            target: center,
+            fov: 75,
+            easing: 'easeOutCubic'
+        });
+
+        return keyframes;
+    }
 }

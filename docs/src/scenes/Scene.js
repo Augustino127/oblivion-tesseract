@@ -106,4 +106,12 @@ export class Scene {
             displayMode: this.displayMode
         };
     }
+
+    /**
+     * Retourne un chemin de caméra cinématique pour cette scène (optionnel)
+     * @returns {Array|null} Tableau de keyframes ou null si pas de path défini
+     */
+    getCinematicPath() {
+        return null; // Par défaut, pas de path - à surcharger dans les sous-classes
+    }
 }
