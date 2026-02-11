@@ -71,6 +71,18 @@ class App {
         this.engine.setScene(scene);
         this.updateUI();
 
+        // Activer automatiquement la vue cinématique si la scène a un camera path
+        // avec un délai de 2 secondes pour voir d'abord la scène
+        if (scene.getCinematicPath && scene.getCinematicPath()) {
+            setTimeout(() => {
+                const cinematicInfo = this.engine.getCinematicInfo();
+                if (!cinematicInfo.isActive) {
+                    this.engine.toggleCinematicMode();
+                    this.updateCinematicUI();
+                }
+            }, 2000);
+        }
+
         // Ne PAS lancer automatiquement la formation
         // L'utilisateur choisit le mode via l'UI
     }
