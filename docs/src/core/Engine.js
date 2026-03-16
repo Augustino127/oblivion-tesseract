@@ -60,17 +60,13 @@ export class Engine {
         // Cinematic Camera System
         this.cinematicCamera = new CinematicCamera(this.camera, this.controls);
 
-        // Lumières
-        const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
+        // Lumières globales neutres — les scènes ajoutent leurs propres lumières
+        const ambientLight = new THREE.AmbientLight(0xffffff, 0.4);
         this.scene.add(ambientLight);
 
-        const pointLight = new THREE.PointLight(0x00ffff, 1);
-        pointLight.position.set(5, 5, 5);
-        this.scene.add(pointLight);
-
-        const pointLight2 = new THREE.PointLight(0xff00ff, 1);
-        pointLight2.position.set(-5, -5, 5);
-        this.scene.add(pointLight2);
+        const dirLight = new THREE.DirectionalLight(0xffffff, 0.6);
+        dirLight.position.set(10, 10, 10);
+        this.scene.add(dirLight);
     }
 
     setupEventListeners() {

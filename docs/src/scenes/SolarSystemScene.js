@@ -162,16 +162,7 @@ export class SolarSystemScene extends Scene {
     }
 
     createLighting() {
-        // Lumière solaire principale — blanche, depuis le centre
-        this.sunLight = new THREE.PointLight(0xFFFFEE, 2.5, 50);
-        this.sunLight.position.set(0, 0, 0);
-        this.scene.add(this.sunLight);
-        this.objects.push(this.sunLight);
-
-        // Lumière ambiante douce pour voir le côté nuit des planètes
-        this.ambientFill = new THREE.AmbientLight(0x111122, 0.4);
-        this.scene.add(this.ambientFill);
-        this.objects.push(this.ambientFill);
+        // Rien — les planètes utilisent MeshBasicMaterial (indépendant des lumières)
     }
 
     createNebula() {
@@ -247,7 +238,7 @@ export class SolarSystemScene extends Scene {
         this.planetData.forEach((data, index) => {
             // Créer la planète
             const geometry = new THREE.SphereGeometry(data.size, 32, 32);
-            const material = new THREE.MeshLambertMaterial({
+            const material = new THREE.MeshBasicMaterial({
                 color: data.color
             });
 
@@ -294,7 +285,7 @@ export class SolarSystemScene extends Scene {
             // Anneaux pour Saturne
             if (data.rings) {
                 const ringGeometry = new THREE.RingGeometry(data.size * 1.5, data.size * 2.5, 64);
-                const ringMaterial = new THREE.MeshLambertMaterial({
+                const ringMaterial = new THREE.MeshBasicMaterial({
                     color: 0xC9B382,
                     side: THREE.DoubleSide,
                     transparent: true,
@@ -316,7 +307,7 @@ export class SolarSystemScene extends Scene {
         for (let i = 0; i < asteroidCount; i++) {
             const size = Math.random() * 0.03 + 0.01;
             const geometry = new THREE.DodecahedronGeometry(size);
-            const material = new THREE.MeshLambertMaterial({
+            const material = new THREE.MeshBasicMaterial({
                 color: 0x888888
             });
 
