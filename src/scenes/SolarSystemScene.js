@@ -148,6 +148,7 @@ export class SolarSystemScene extends Scene {
     }
 
     init() {
+        this.createLighting();
         this.createNebula();
         this.createStar();
         this.createPlanets();
@@ -158,6 +159,19 @@ export class SolarSystemScene extends Scene {
 
         this.displayMode = 'final';
         this.currentStateIndex = 2; // Commence avec système mature
+    }
+
+    createLighting() {
+        // Lumière solaire principale — blanche, depuis le centre
+        this.sunLight = new THREE.PointLight(0xFFFFEE, 2.5, 50);
+        this.sunLight.position.set(0, 0, 0);
+        this.scene.add(this.sunLight);
+        this.objects.push(this.sunLight);
+
+        // Lumière ambiante douce pour voir le côté nuit des planètes
+        this.ambientFill = new THREE.AmbientLight(0x111122, 0.4);
+        this.scene.add(this.ambientFill);
+        this.objects.push(this.ambientFill);
     }
 
     createNebula() {
@@ -233,9 +247,8 @@ export class SolarSystemScene extends Scene {
         this.planetData.forEach((data, index) => {
             // Créer la planète
             const geometry = new THREE.SphereGeometry(data.size, 32, 32);
-            const material = new THREE.MeshPhongMaterial({
-                color: data.color,
-                shininess: 30
+            const material = new THREE.MeshLambertMaterial({
+                color: data.color
             });
 
             const planet = new THREE.Mesh(geometry, material);
@@ -281,7 +294,7 @@ export class SolarSystemScene extends Scene {
             // Anneaux pour Saturne
             if (data.rings) {
                 const ringGeometry = new THREE.RingGeometry(data.size * 1.5, data.size * 2.5, 64);
-                const ringMaterial = new THREE.MeshBasicMaterial({
+                const ringMaterial = new THREE.MeshLambertMaterial({
                     color: 0xC9B382,
                     side: THREE.DoubleSide,
                     transparent: true,
@@ -303,9 +316,8 @@ export class SolarSystemScene extends Scene {
         for (let i = 0; i < asteroidCount; i++) {
             const size = Math.random() * 0.03 + 0.01;
             const geometry = new THREE.DodecahedronGeometry(size);
-            const material = new THREE.MeshPhongMaterial({
-                color: 0x888888,
-                flatShading: true
+            const material = new THREE.MeshLambertMaterial({
+                color: 0x888888
             });
 
             const asteroid = new THREE.Mesh(geometry, material);
@@ -549,8 +561,8 @@ export class SolarSystemScene extends Scene {
             planet.position.z = Math.sin(data.angle) * data.distance;
             planet.position.y = Math.sin(data.angle + data.tilt) * 0.2;
 
-            // Rotation planète
-            planet.rotation.y += 0.02;
+            // Rotation planète (ralentie pour éviter le scintillement)
+            planet.rotation.y += 0.003;
         });
 
         // Ceinture d'astéroïdes
